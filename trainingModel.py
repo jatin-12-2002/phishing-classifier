@@ -6,6 +6,7 @@ from data_preprocessing import clustering
 from best_model_finder import tuner
 from file_operations import file_methods
 from application_logging import logger
+from application_exception.exception import PhishingException
 
 #Creating the common Logging object
 class trainModel:
@@ -42,7 +43,7 @@ class trainModel:
                 data=preprocessor.impute_missing_values(data,cols_with_missing_values) # missing value imputation
 
             # get encoded values for categorical data
-
+            
             #data = preprocessor.encodeCategoricalValues(data)
 
             # create separate features and labels
@@ -52,7 +53,7 @@ class trainModel:
             #X=preprocessor.remove_columns(X,cols_to_drop)
 
             """ Applying the clustering approach"""
-
+            
             kmeans=clustering.KMeansClustering(self.file_object,self.log_writer) # object initialization.
             number_of_clusters=kmeans.elbow_plot(X)  #  using the elbow plot to find the number of optimum clusters
 
@@ -61,7 +62,7 @@ class trainModel:
 
             #create a new column in the dataset consisting of the corresponding cluster assignments.
             X['Labels']=Y
-
+            
             # getting the unique clusters from our dataset
             list_of_clusters=X['Cluster'].unique()
 
@@ -76,7 +77,7 @@ class trainModel:
 
                 # splitting the data into training and test set for each cluster one by one
                 x_train, x_test, y_train, y_test = train_test_split(cluster_features, cluster_label, test_size=1 / 3, random_state=36)
-
+                
                 model_finder=tuner.Model_Finder(self.file_object,self.log_writer) # object initialization
 
                 #getting the best model for each of the clusters
@@ -90,8 +91,8 @@ class trainModel:
             self.log_writer.log(self.file_object, 'Successful End of Training')
             self.file_object.close()
 
-        except Exception:
+        except Exception as e:
             # logging the unsuccessful Training
             self.log_writer.log(self.file_object, 'Unsuccessful End of Training')
             self.file_object.close()
-            raise Exception
+            raise PhishingException(e)
