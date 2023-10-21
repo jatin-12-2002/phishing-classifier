@@ -76,7 +76,7 @@ class trainModel:
                 cluster_label= cluster_data['Labels']
 
                 # splitting the data into training and test set for each cluster one by one
-                x_train, x_test, y_train, y_test = train_test_split(cluster_features, cluster_label, test_size=1 / 3, random_state=36)
+                x_train, x_test, y_train, y_test = train_test_split(cluster_features, cluster_label, test_size=0.2, random_state=42)
                 
                 model_finder=tuner.Model_Finder(self.file_object,self.log_writer) # object initialization
 
