@@ -13,6 +13,7 @@ PredictionArchivedBadData/
 preprocessing_data/
 Training_FileFromDB/
 Training_Logs/
+Training_Database/
 # C extensions
 *.so
 
