@@ -44,8 +44,6 @@ class prediction:
             file_loader=file_methods.File_Operation(self.file_object,self.log_writer)
             kmeans=file_loader.load_model('KMeans')
 
-            ##Code changed
-            #pred_data = data.drop(['Wafer'],axis=1)
             clusters=kmeans.predict(data)#drops the first column for cluster prediction
             data['clusters']=clusters
             clusters=data['clusters'].unique()
@@ -70,7 +68,7 @@ class prediction:
         except Exception as ex:
             self.log_writer.log(self.file_object, 'Error occured while running the prediction!! Error:: %s' % ex)
             raise PhishingException(ex,sys)
-        return path
+        return path, result.head().to_json(orient="records")
 
             # old code
             # i=0

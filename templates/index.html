@@ -125,7 +125,7 @@
 		<div class="container-fluid">
 			<h4 class="my-4 title highlight">Phishing Classifier Detection</h4>
 			<br>
-			<a class="my-4 title" href="/train" style="padding:10px;border-radius:5px;background-color:Green;border:none;color:white"> Train Phishing Detection</a>
+			<button class="my-4 title btn btn-primary" href="/train" style="padding:10px;border-radius:5px;background-color:Green;border:none;color:white" id="trainBtn"> Train Phishing Detection</button>
 			<div class="row">
 				<div class="col-md-6 col-xs-12">
 					<br/>
@@ -189,7 +189,7 @@
 					type: "POST",
 					data: {filepath:path},
 					success: function(response){
-						$(".json-result").html('<p>"Prediction File created at !!!Prediction_Output_File/Predictions.csvand few of the predictions are"</p><pre>' + response + '</pre>');	
+						$(".json-result").html('<p>"Prediction File created at !!!Prediction_Output_File/Predictions.csv and few of the predictions are"</p><pre>' + response + '</pre>');	
 						$('#loading').hide();
 					}
 				});
@@ -208,10 +208,22 @@
 						$('#loading').hide();
 					}
 				});
-				
 			});
+            $("#trainBtn").click(function (e) {
+                e.preventDefault();
+                $('#loading').show();
+               // $("#trainingUpdates").show(); // Show training update section
+                $.ajax({
+                    url: "/train", // Endpoint for training
+                    type: "POST",
+                    data: { folderPath: "Training_Batch_Files" }, // Modify with your training data path
+                    success: function (response) {
+                        $(".json-result").html('<p>"Training File created !!!</p><pre>');
+                        //$("#trainingUpdates .json-result").html(response);
+                        $('#loading').hide();
+                    },
+                });
+            });
 		});
 	</script>
 </body>
-
-</html>

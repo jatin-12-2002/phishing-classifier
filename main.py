@@ -28,7 +28,7 @@ def home():
 @cross_origin()
 def predictRouteClient():
     try:
-        if request.json['filepath'] is not None:
+        if request.json and 'filepath' in request.json and request.json['filepath'] is not None:
             path = request.json['filepath']
             
             pred_val = pred_validation(path) #object initialization
@@ -40,7 +40,8 @@ def predictRouteClient():
             # predicting for dataset present in database
             path = pred.predictionFromModel()
             return Response("Prediction File created at %s!!!" % path)
-        elif request.form is not None:
+        
+        elif request.form and 'filepath' in request.form and request.form['filepath'] is not None:
             path = request.form['filepath']
 
             pred_val = pred_validation(path) #object initialization
@@ -66,9 +67,8 @@ def predictRouteClient():
 @app.route("/train", methods=['POST'])
 @cross_origin()
 def trainRouteClient():
-
     try:
-        if request.json['folderPath'] is not None:
+        if request.json and 'folderPath' in request.json and request.json['folderPath'] is not None:
             path = request.json['folderPath']
             train_valObj = train_validation(path) #object initialization
             
@@ -76,6 +76,17 @@ def trainRouteClient():
 
             trainModelObj = trainModel() #object initialization
             trainModelObj.trainingModel() #training the model for the files in the table
+        
+        elif request.form and 'folderPath' in request.form and request.form['folderPath'] is not None:
+            path = request.form['folderPath']
+            train_valObj = train_validation(path) #object initialization
+            
+            train_valObj.train_validation() #calling the training_validation function
+
+            trainModelObj = trainModel() #object initialization
+            trainModelObj.trainingModel() #training the model for the files in the table
+        else:
+            print('Nothing Matched')
 
     except ValueError:
         return Response("Error Occurred! %s" % ValueError)

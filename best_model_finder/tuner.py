@@ -204,7 +204,7 @@ class Model_Finder:
                 self.rf_score = roc_auc_score(test_y, self.prediction_rf) # AUC for Random Forest Algorithm
                 self.logger_object.log(self.file_object, 'AUC for Random Forest:' + str(self.rf_score))
 
-            #comparing the two models
+            #comparing the three models
             if(self.gbc_score <  self.xgboost_score and self.rf_score < self.xgboost_score):
                 return 'XGBoost',self.xgboost
             elif(self.gbc_score >  self.xgboost_score and self.gbc_score > self.rf_score):

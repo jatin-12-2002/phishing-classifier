@@ -43,5 +43,6 @@ zipp==2.0.1
 pytest-shutil==1.7.0
 regex==2023.10.3
 datetime
+flask_socketio
 from-root
 -e .
