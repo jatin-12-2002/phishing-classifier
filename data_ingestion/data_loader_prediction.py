@@ -1,5 +1,6 @@
 import pandas as pd
 from application_exception.exception import PhishingException
+import sys
 
 class Data_Getter_Pred:
     """
@@ -28,4 +29,4 @@ class Data_Getter_Pred:
                 'Exception occured in get_data method of the Data_Getter class. Exception message: '+str(e))
             self.logger_object.log(self.file_object,
                                 'Data Load Unsuccessful.Exited the get_data method of the Data_Getter class')
-            raise PhishingException(e)
+            raise PhishingException(e, sys)

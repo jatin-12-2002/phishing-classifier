@@ -1,5 +1,6 @@
 import sqlite3
 from datetime import datetime
+import sys
 from os import listdir
 import os
 import re
@@ -37,9 +38,9 @@ class Raw_Data_validation:
             NumberofColumns = dic['NumberofColumns']
 
             file = open("Training_Logs/valuesfromSchemaValidationLog.txt", 'a+')
-            self.logger.log(file,message)
             message ="LengthOfDateStampInFile:: %s" %LengthOfDateStampInFile + "\t" + "LengthOfTimeStampInFile:: %s" % LengthOfTimeStampInFile +"\t " + "NumberofColumns:: %s" % NumberofColumns + "\n"
-
+            self.logger.log(file,message)
+            
             file.close()
 
         except ValueError:
@@ -58,7 +59,7 @@ class Raw_Data_validation:
             file = open("Training_Logs/valuesfromSchemaValidationLog.txt", 'a+')
             self.logger.log(file, str(e))
             file.close()
-            raise PhishingException(e)
+            raise PhishingException(e,sys)
 
         return LengthOfDateStampInFile, LengthOfTimeStampInFile, column_names, NumberofColumns
 
@@ -179,7 +180,7 @@ class Raw_Data_validation:
             file = open("Training_Logs/GeneralLog.txt", 'a+')
             self.logger.log(file, "Error while moving bad files to archive:: %s" % e)
             file.close()
-            raise PhishingException(e)
+            raise PhishingException(e,sys)
 
     def validationFileNameRaw(self,regex,LengthOfDateStampInFile,LengthOfTimeStampInFile):
         """
@@ -225,7 +226,7 @@ class Raw_Data_validation:
             f = open("Training_Logs/nameValidationLog.txt", 'a+')
             self.logger.log(f, "Error occured while validating FileName %s" % e)
             f.close()
-            raise PhishingException(e)
+            raise PhishingException(e,sys)
 
     def validateColumnLength(self,NumberofColumns):
         """
@@ -259,7 +260,7 @@ class Raw_Data_validation:
             f = open("Training_Logs/columnValidationLog.txt", 'a+')
             self.logger.log(f, "Error Occured:: %s" % e)
             f.close()
-            raise PhishingException(e)
+            raise PhishingException(e,sys)
         f.close()
 
     def validateMissingValuesInWholeColumn(self):
@@ -298,5 +299,5 @@ class Raw_Data_validation:
             f = open("Training_Logs/missingValuesInColumn.txt", 'a+')
             self.logger.log(f, "Error Occured:: %s" % e)
             f.close()
-            raise PhishingException(e)
+            raise PhishingException(e,sys)
         f.close()

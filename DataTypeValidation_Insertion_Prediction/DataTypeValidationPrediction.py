@@ -5,6 +5,7 @@ import os
 import csv
 from application_logging.logger import App_Logger
 from application_exception.exception import PhishingException
+import sys
 
 class dBOperation:
     """
@@ -27,6 +28,8 @@ class dBOperation:
         """
 
         try:
+            if not os.path.exists(self.path):
+                os.makedirs(self.path)
             conn = sqlite3.connect(self.path+DatabaseName+'.db')
 
             file = open("Prediction_Logs/DataBaseConnectionLog.txt", 'a+')
@@ -48,7 +51,7 @@ class dBOperation:
         Output: None
         On Failure: Raise Exception
         """
-
+        conn = None
         try:
             conn = self.dataBaseConnection(DatabaseName)
             conn.execute('DROP TABLE IF EXISTS Good_Raw_Data;')
@@ -83,7 +86,7 @@ class dBOperation:
             file = open("Prediction_Logs/DataBaseConnectionLog.txt", 'a+')
             self.logger.log(file, "Closed %s database successfully" % DatabaseName)
             file.close()
-            raise PhishingException(e)
+            raise PhishingException(e,sys)
 
     def insertIntoTableGoodData(self,Database):
         """
@@ -121,7 +124,7 @@ class dBOperation:
                 self.logger.log(log_file, "File Moved Successfully %s" % file)
                 log_file.close()
                 conn.close()
-                raise PhishingException(e)
+                raise PhishingException(e,sys)
 
         conn.close()
         log_file.close()
@@ -165,4 +168,4 @@ class dBOperation:
 
         except Exception as e:
             self.logger.log(log_file, "File exporting failed. Error : %s" %e)
-            raise PhishingException(e)
+            raise PhishingException(e,sys)

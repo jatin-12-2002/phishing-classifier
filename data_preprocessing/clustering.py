@@ -4,6 +4,7 @@ from kneed import KneeLocator
 from file_operations import file_methods
 from application_exception.exception import PhishingException
 from application_logging.logger import App_Logger
+import os, sys
 
 class KMeansClustering:
     """
@@ -33,6 +34,8 @@ class KMeansClustering:
             plt.xlabel('Number of clusters')
             plt.ylabel('WCSS')
             #plt.show()
+            if not os.path.exists('preprocessing_data'):
+                os.makedirs('preprocessing_data')
             plt.savefig('preprocessing_data/K-Means_Elbow.PNG') # saving the elbow plot locally
             # finding the value of the optimum cluster programmatically
             self.kn = KneeLocator(range(1, 11), wcss, curve='convex', direction='decreasing')
@@ -42,7 +45,7 @@ class KMeansClustering:
         except Exception as e:
             self.logger_object.log(self.file_object,'Exception occured in elbow_plot method of the KMeansClustering class. Exception message:  ' + str(e))
             self.logger_object.log(self.file_object,'Finding the number of clusters failed. Exited the elbow_plot method of the KMeansClustering class')
-            raise PhishingException(e)
+            raise PhishingException(e,sys)
 
     def create_clusters(self,data,number_of_clusters):
         """
@@ -69,4 +72,4 @@ class KMeansClustering:
         except Exception as e:
             self.logger_object.log(self.file_object,'Exception occured in create_clusters method of the KMeansClustering class. Exception message:  ' + str(e))
             self.logger_object.log(self.file_object,'Fitting the data to clusters failed. Exited the create_clusters method of the KMeansClustering class')
-            raise PhishingException(e)
+            raise PhishingException(e,sys)

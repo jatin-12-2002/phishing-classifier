@@ -5,6 +5,7 @@ from data_ingestion import data_loader_prediction
 from application_logging import logger
 from Prediction_Raw_Data_Validation.predictionDataValidation import Prediction_Data_validation
 from application_exception.exception import PhishingException
+import sys,os
 
 class prediction:
 
@@ -61,12 +62,14 @@ class prediction:
                     result.append(val)
             result = pandas.DataFrame(result,columns=['Predictions'])
             path="Prediction_Output_File/Predictions.csv"
+            if not os.path.exists("Prediction_Output_File"):
+                os.makedirs("Prediction_Output_File")
             result.to_csv("Prediction_Output_File/Predictions.csv",header=True) #appends result to prediction file
             self.log_writer.log(self.file_object,'End of Prediction')
         
         except Exception as ex:
             self.log_writer.log(self.file_object, 'Error occured while running the prediction!! Error:: %s' % ex)
-            raise PhishingException(ex)
+            raise PhishingException(ex,sys)
         return path
 
             # old code

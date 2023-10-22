@@ -28,8 +28,8 @@ def home():
 @cross_origin()
 def predictRouteClient():
     try:
-        if request.json['folderPath'] is not None:
-            path = request.json['folderPath']
+        if request.json['filepath'] is not None:
+            path = request.json['filepath']
             
             pred_val = pred_validation(path) #object initialization
 

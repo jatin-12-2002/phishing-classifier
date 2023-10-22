@@ -2,7 +2,7 @@ import shutil
 import sqlite3
 from datetime import datetime
 from os import listdir
-import os
+import os, sys
 import csv
 from application_logging.logger import App_Logger
 from application_exception.exception import PhishingException
@@ -26,16 +26,18 @@ class dBOperation:
         On Failure: Raise ConnectionError
         """
         try:
+            if not os.path.exists(self.path):
+                os.makedirs(self.path)
             conn = sqlite3.connect(self.path+DatabaseName+'.db')
 
             file = open("Training_Logs/DataBaseConnectionLog.txt", 'a+')
             self.logger.log(file, "Opened %s database successfully" % DatabaseName)
             file.close()
-        except ConnectionError:
+        except ConnectionError as e:
             file = open("Training_Logs/DataBaseConnectionLog.txt", 'a+')
             self.logger.log(file, "Error while connecting to database: %s" %ConnectionError)
             file.close()
-            raise ConnectionError
+            raise ConnectionError(str(e))
         
         return conn
 
@@ -47,6 +49,7 @@ class dBOperation:
         Output: None
         On Failure: Raise Exception
         """
+        conn = None
         try:
             conn = self.dataBaseConnection(DatabaseName)
             c=conn.cursor()
@@ -94,19 +97,20 @@ class dBOperation:
 
         except Exception as e:
             file = open("Training_Logs/DbTableCreateLog.txt", 'a+')
-            self.logger.log(file, "Error while creating table: %s " % e)
+            self.logger.log(file, "Error while creating table: %s " % str(e))
             file.close()
-            conn.close()
+            if conn is not None:
+                conn.close()
             file = open("Training_Logs/DataBaseConnectionLog.txt", 'a+')
             self.logger.log(file, "Closed %s database successfully" % DatabaseName)
             file.close()
-            raise PhishingException(e)
-
+            raise PhishingException(e,sys)
     def insertIntoTableGoodData(self,Database):
         """
         Method Name: insertIntoTableGoodData
         Description: This method inserts the Good data files from the Good_Raw folder into the 
                         above created table.
+
         Output: None
         On Failure: Raise Exception
         """
@@ -128,7 +132,7 @@ class dBOperation:
                                 self.logger.log(log_file," %s: File loaded successfully!!" % file)
                                 conn.commit()
                             except Exception as e:
-                                raise PhishingException(e)
+                                raise PhishingException(e,sys)
 
             except Exception as e:
                 conn.rollback()

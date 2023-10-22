@@ -6,6 +6,7 @@ from sklearn.metrics  import roc_auc_score,accuracy_score
 from application_exception.exception import PhishingException
 from application_logging.logger import App_Logger
 from sklearn.ensemble import GradientBoostingClassifier
+import sys
 
 class Model_Finder:
     """
@@ -67,7 +68,7 @@ class Model_Finder:
                         'Exception occured in get_best_params_for_gb method of the Model_Finder class. Exception message:  ' + str(e))
             self.logger_object.log(self.file_object,
                         'Gradient Boosting Classifier training  failed. Exited the get_best_params_for_gb method of the Model_Finder class')
-            raise PhishingException(e)
+            raise PhishingException(e,sys)
 
     def get_best_params_for_random_forest(self,train_x,train_y):
         """
@@ -111,7 +112,7 @@ class Model_Finder:
                     'Exception occured in get_best_params_for_random_forest method of the Model_Finder class. Exception message:  ' + str(e))
             self.logger_object.log(self.file_object,
                     'Random Forest Parameter tuning  failed. Exited the get_best_params_for_random_forest method of the Model_Finder class')
-            raise PhishingException(e)
+            raise PhishingException(e,sys)
     
     def get_best_params_for_xgboost(self,train_x,train_y):
         """
@@ -159,7 +160,7 @@ class Model_Finder:
                     'Exception occured in get_best_params_for_xgboost method of the Model_Finder class. Exception message:  ' + str(e))
             self.logger_object.log(self.file_object,
                     'XGBoost Parameter tuning  failed. Exited the get_best_params_for_xgboost method of the Model_Finder class')
-            raise PhishingException(e)
+            raise PhishingException(e,sys)
 
     def get_best_model(self,train_x,train_y,test_x,test_y):
         """
@@ -181,7 +182,7 @@ class Model_Finder:
                 self.xgboost_score = roc_auc_score(test_y, self.prediction_xgboost) # AUC for XGBoost
                 self.logger_object.log(self.file_object, 'AUC for XGBoost:' + str(self.xgboost_score)) # Log AUC
 
-            # create best model for Support Vector Classifier
+            # create best model for Gradient Boosting Classifier
             self.gbc=self.get_best_params_for_gb(train_x,train_y)
             self.prediction_gbc=self.gbc.predict(test_x) # prediction using the Gradient Boosting Algorithm
 
@@ -189,18 +190,18 @@ class Model_Finder:
                 self.gbc_score = accuracy_score(test_y,self.prediction_gbc)
                 self.logger_object.log(self.file_object, 'Accuracy for Gradient Boosting:' + str(self.gbc_score))
             else:
+                self.gbc_score = roc_auc_score(test_y, self.prediction_gbc) # AUC for Gradient Boosting Algorithm
                 self.logger_object.log(self.file_object, 'AUC for Gradient Boosting:' + str(self.gbc_score))
             
             # create best model for Random Forest
             self.rf=self.get_best_params_for_random_forest(train_x,train_y)
-            self.svm_score = roc_auc_score(test_y, self.prediction_svm) # AUC for Random Forest Algorithm
             self.prediction_rf=self.rf.predict(test_x) # prediction using the Random Forest Algorithm
 
             if len(test_y.unique()) == 1:#if there is only one label in y, then roc_auc_score returns error. We will use accuracy in that case
                 self.rf_score = accuracy_score(test_y,self.prediction_rf)
                 self.logger_object.log(self.file_object, 'Accuracy for Random Forest:' + str(self.rf_score))
             else:
-                self.rf_score = roc_auc_score(test_y, self.prediction_rf) # AUC for Random Forest
+                self.rf_score = roc_auc_score(test_y, self.prediction_rf) # AUC for Random Forest Algorithm
                 self.logger_object.log(self.file_object, 'AUC for Random Forest:' + str(self.rf_score))
 
             #comparing the two models
@@ -216,4 +217,4 @@ class Model_Finder:
                     'Exception occured in get_best_model method of the Model_Finder class. Exception message:  ' + str(e))
             self.logger_object.log(self.file_object,
                     'Model Selection Failed. Exited the get_best_model method of the Model_Finder class')
-            raise PhishingException(e)
+            raise PhishingException(e,sys)

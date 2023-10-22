@@ -1,6 +1,7 @@
 import pickle
 import os
 import shutil
+import sys
 from application_exception.exception import PhishingException
 
 class File_Operation:
@@ -38,7 +39,7 @@ class File_Operation:
             self.logger_object.log(self.file_object,'Exception occured in save_model method of the Model_Finder class. Exception message:  ' + str(e))
             self.logger_object.log(self.file_object,
                     'Model File '+filename+' could not be saved. Exited the save_model method of the Model_Finder class')
-            raise PhishingException(e)
+            raise PhishingException(e,sys)
 
     def load_model(self,filename):
         """
@@ -59,7 +60,7 @@ class File_Operation:
                                    'Exception occured in load_model method of the Model_Finder class. Exception message:  ' + str(e))
             self.logger_object.log(self.file_object,
                     'Model File ' + filename + ' could not be saved. Exited the load_model method of the Model_Finder class')
-            raise PhishingException(e)
+            raise PhishingException(e,sys)
 
     def find_correct_model_file(self,cluster_number):
         """
@@ -90,4 +91,4 @@ class File_Operation:
                         'Exception occured in find_correct_model_file method of the Model_Finder class. Exception message:  ' + str(e))
             self.logger_object.log(self.file_object,
                         'Exited the find_correct_model_file method of the Model_Finder class with Failure')
-            raise PhishingException(e)
+            raise PhishingException(e,sys)

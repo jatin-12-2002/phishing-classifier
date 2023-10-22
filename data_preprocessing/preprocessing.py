@@ -4,6 +4,7 @@ from sklearn.impute import KNNImputer
 from sklearn_pandas import CategoricalImputer
 from application_logging.logger import App_Logger
 from application_exception.exception import PhishingException
+import sys
 
 class Preprocessor:
     """
@@ -35,7 +36,7 @@ class Preprocessor:
             'Exception occured in remove_columns method of the Preprocessor class. Exception message:  '+str(e))
             self.logger_object.log(self.file_object,
                     'Column removal Unsuccessful. Exited the remove_columns method of the Preprocessor class')
-            raise PhishingException(e)
+            raise PhishingException(e,sys)
 
     def separate_label_feature(self, data, label_column_name):
         """
@@ -55,7 +56,7 @@ class Preprocessor:
         except Exception as e:
             self.logger_object.log(self.file_object,'Exception occured in separate_label_feature method of the Preprocessor class. Exception message:  ' + str(e))
             self.logger_object.log(self.file_object, 'Label Separation Unsuccessful. Exited the separate_label_feature method of the Preprocessor class')
-            raise PhishingException(e)
+            raise PhishingException(e,sys)
 
     def dropUnnecessaryColumns(self,data,columnNameList):
         """
@@ -105,7 +106,7 @@ class Preprocessor:
         except Exception as e:
             self.logger_object.log(self.file_object,'Exception occured in is_null_present method of the Preprocessor class. Exception message:  ' + str(e))
             self.logger_object.log(self.file_object,'Finding missing values failed. Exited the is_null_present method of the Preprocessor class')
-            raise PhishingException(e)
+            raise PhishingException(e,sys)
 
     def encodeCategoricalValues(self,data):
         """
@@ -166,7 +167,7 @@ class Preprocessor:
         except Exception as e:
             self.logger_object.log(self.file_object,'Exception occured in impute_missing_values method of the Preprocessor class. Exception message:  ' + str(e))
             self.logger_object.log(self.file_object,'Imputing missing values failed. Exited the impute_missing_values method of the Preprocessor class')
-            raise PhishingException(e)
+            raise PhishingException(e,sys)
 
     def get_columns_with_zero_std_deviation(self,data):
         """
@@ -190,4 +191,4 @@ class Preprocessor:
         except Exception as e:
             self.logger_object.log(self.file_object,'Exception occured in get_columns_with_zero_std_deviation method of the Preprocessor class. Exception message:  ' + str(e))
             self.logger_object.log(self.file_object, 'Column search for Standard Deviation of Zero Failed. Exited the get_columns_with_zero_std_deviation method of the Preprocessor class')
-            raise PhishingException(e)
+            raise PhishingException(e,sys)

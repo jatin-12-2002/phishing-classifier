@@ -1,4 +1,5 @@
 # Doing the necessary imports
+import sys
 from sklearn.model_selection import train_test_split
 from data_ingestion import data_loader
 from data_preprocessing import preprocessing
@@ -95,4 +96,4 @@ class trainModel:
             # logging the unsuccessful Training
             self.log_writer.log(self.file_object, 'Unsuccessful End of Training')
             self.file_object.close()
-            raise PhishingException(e)
+            raise PhishingException(e,sys)

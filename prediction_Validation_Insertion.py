@@ -3,6 +3,7 @@ from DataTypeValidation_Insertion_Prediction.DataTypeValidationPrediction import
 from DataTransformation_Prediction.DataTransformationPrediction import dataTransformPredict
 from application_logging import logger
 from application_exception.exception import PhishingException
+import sys, os
 
 class pred_validation:
     
@@ -10,6 +11,8 @@ class pred_validation:
         self.raw_data = Prediction_Data_validation(path)
         self.dataTransform = dataTransformPredict()
         self.dBOperation = dBOperation()
+        if not os.path.exists('Prediction_Logs'):
+                os.makedirs('Prediction_Logs')
         self.file_object = open("Prediction_Logs/Prediction_Log.txt", 'a+')
         self.log_writer = logger.App_Logger()
 
@@ -65,4 +68,4 @@ class pred_validation:
             self.dBOperation.selectingDatafromtableintocsv('Prediction')
 
         except Exception as e:
-            raise PhishingException(e)
+            raise PhishingException(e,sys)

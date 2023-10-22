@@ -4,6 +4,15 @@ __pycache__/
 *$py.class
 env567/
 sensor.egg-info/
+models/
+Prediction_Database/
+Prediction_FileFromDB/
+Prediction_Logs/
+Prediction_Output_File/
+PredictionArchivedBadData/
+preprocessing_data/
+Training_FileFromDB/
+Training_Logs/
 # C extensions
 *.so
 

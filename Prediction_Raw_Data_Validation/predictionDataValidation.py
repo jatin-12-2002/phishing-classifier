@@ -1,7 +1,7 @@
 import sqlite3
 from datetime import datetime
 from os import listdir
-import os
+import os, sys
 import re
 import json
 import shutil
@@ -58,7 +58,7 @@ class Prediction_Data_validation:
             file = open("Prediction_Logs/valuesfromSchemaValidationLog.txt", 'a+')
             self.logger.log(file, str(e))
             file.close()
-            raise PhishingException(e)
+            raise PhishingException(e,sys)
 
         return LengthOfDateStampInFile, LengthOfTimeStampInFile, column_names, NumberofColumns
 
@@ -223,7 +223,7 @@ class Prediction_Data_validation:
             f = open("Prediction_Logs/nameValidationLog.txt", 'a+')
             self.logger.log(f, "Error occured while validating FileName %s" % e)
             f.close()
-            raise PhishingException(e)
+            raise PhishingException(e,sys)
 
     def validateColumnLength(self,NumberofColumns):
         """
@@ -259,7 +259,7 @@ class Prediction_Data_validation:
             f = open("Prediction_Logs/columnValidationLog.txt", 'a+')
             self.logger.log(f, "Error Occured:: %s" % e)
             f.close()
-            raise PhishingException(e)
+            raise PhishingException(e,sys)
 
         f.close()
 
@@ -304,5 +304,5 @@ class Prediction_Data_validation:
             f = open("Prediction_Logs/missingValuesInColumn.txt", 'a+')
             self.logger.log(f, "Error Occured:: %s" % e)
             f.close()
-            raise PhishingException(e)
+            raise PhishingException(e,sys)
         f.close()
