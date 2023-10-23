@@ -1,5 +1,5 @@
 from datetime import datetime
-import sys
+import sys, os
 from Training_Raw_data_validation.rawValidation import Raw_Data_validation
 from DataTypeValidation_Insertion_Training.DataTypeValidation import dBOperation
 from DataTransform_Training.DataTransformation import dataTransform
@@ -12,6 +12,8 @@ class train_validation:
         self.raw_data = Raw_Data_validation(path)
         self.dataTransform = dataTransform()
         self.dBOperation = dBOperation()
+        if not os.path.isdir("Training_Logs"):
+                os.makedirs("Training_Logs")
         self.file_object = open("Training_Logs/Training_Main_Log.txt", 'a+')
         self.log_writer = logger.App_Logger()
 

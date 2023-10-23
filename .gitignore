@@ -16,6 +16,8 @@ Training_Logs/
 Training_Database/
 Training_Raw_files_validated/
 TrainingArchiveBadData/
+Prediction_Raw_Files_Validated/
+.vscode/
 # C extensions
 *.so
 

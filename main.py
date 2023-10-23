@@ -1,6 +1,7 @@
 from wsgiref import simple_server
 from flask import Flask, request
 from flask import Response
+from application_exception.exception import PhishingException
 import os
 from flask_cors import CORS, cross_origin
 from prediction_Validation_Insertion import pred_validation
@@ -9,7 +10,7 @@ from training_Validation_Insertion import train_validation
 import flask_monitoringdashboard as dashboard
 from predictFromModel import prediction
 from flask import Flask, request, Response, render_template
-import json
+import json, sys
 
 os.putenv('LANG', 'en_US.UTF-8')
 os.putenv('LC_ALL', 'en_US.UTF-8')
@@ -38,8 +39,8 @@ def predictRouteClient():
             pred = prediction(path) #object initialization
 
             # predicting for dataset present in database
-            path = pred.predictionFromModel()
-            return Response("Prediction File created at %s!!!" % path)
+            path,json_predictions = pred.predictionFromModel()
+            return Response("Prediction File created at !!!"  +str(path) +'and few of the predictions are '+str(json.loads(json_predictions) ))
         
         elif request.form and 'filepath' in request.form and request.form['filepath'] is not None:
             path = request.form['filepath']
@@ -57,11 +58,11 @@ def predictRouteClient():
             print('Nothing Matched')
         
     except ValueError:
-        return Response("Error Occurred! %s" %ValueError)
+        return Response("Error Occurred! %s" % ValueError)
     except KeyError:
-        return Response("Error Occurred! %s" %KeyError)
+        return Response("Error Occurred! %s" % KeyError)
     except Exception as e:
-        return Response("Error Occurred! %s" %e)
+        return Response("Error Occurred! %s" % e)
 
 
 @app.route("/train", methods=['POST'])
