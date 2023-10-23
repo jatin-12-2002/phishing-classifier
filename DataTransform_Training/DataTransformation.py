@@ -38,6 +38,7 @@ class dataTransform:
                     data.to_csv(self.goodDataPath+ "/" + file, index=None, header=True)
                     self.logger.log(log_file," %s: Quotes added successfully!!" % file)
                #log_file.write("Current Date :: %s" %date +"\t" + "Current time:: %s" % current_time + "\t \t" +  + "\n")
+          
           except Exception as e:
                self.logger.log(log_file, "Data Transformation failed because:: %s" % e)
                #log_file.write("Current Date :: %s" %date +"\t" +"Current time:: %s" % current_time + "\t \t" + "Data Transformation failed because:: %s" % e + "\n")
