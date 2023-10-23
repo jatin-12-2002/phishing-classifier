@@ -63,3 +63,22 @@ http://localhost:5000/train
 http://localhost:5000/predict
 
 ```
+
+## Result
+
+Accuracy of various model used for URL detection
+
+![image](screenshots/modelr.png)
+
+Feature importance for Phishing URL Detection
+
+![image](screenshots/featu.png)
+
+## Conclusion
+
+1. The final take away form this project is to explore various machine learning models, perform Exploratory Data Analysis on phishing dataset and understanding their features.
+2. Creating this notebook helped me to learn a lot about the features affecting the models to detect whether URL is safe or not, also I came to know how to tuned model and how they affect the model performance.
+3. The final conclusion on the Phishing dataset is that the some feature like "SSLfinal_State", "URL_of_Anchor", "web_traffic" have more importance to classify URL is phishing URL or not.
+4. XGBoost Classifier currectly classify URL upto 97.1% respective classes and hence reduces the chance of malicious attachments.
+
+
