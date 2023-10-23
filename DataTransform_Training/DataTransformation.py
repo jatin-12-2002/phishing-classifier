@@ -48,7 +48,6 @@ class dataTransform:
      #      """
      #      Method Name: addQuotesToStringValuesInColumn
      #      Description: This method changing the column names by replacing the '-'.
-     #
      #      """
      #      log_file = open("Training_Logs/removeHyphenFromColumnNames.txt", 'a+')
      #      try:
