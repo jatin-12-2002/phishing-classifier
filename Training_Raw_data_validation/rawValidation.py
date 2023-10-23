@@ -129,6 +129,7 @@ class Raw_Data_validation:
         Output: None
         On Failure: OSError
         """
+        
         try:
             path = 'Training_Raw_files_validated/'
             if os.path.isdir(path + 'Bad_Raw/'):
