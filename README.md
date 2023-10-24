@@ -20,10 +20,10 @@ The Code is written in Python 3.7.6. If you don't have Python installed you can 
 ![image](screenshots/architecture.png)
 
 
-## Project Screenshots
+## Training Successful Screenshots
 ![image](screenshots/SS1.png)
 
-## Project Screenshots
+## Prediction Successful Screenshots
 ![image](screenshots/SS2.png)
 
 
