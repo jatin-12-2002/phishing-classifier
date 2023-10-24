@@ -1,4 +1,4 @@
-# Phising-Classifier
+# Phishing-Classifier
 
 # Introduction
 
